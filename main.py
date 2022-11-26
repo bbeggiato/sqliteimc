@@ -2,7 +2,9 @@
 from tkinter import *
 from tkinter import ttk
 from tkinter import messagebox
+from datetime import datetime
 from funcaoimc import calculaImc
+
 import banco
 
 # Pesquisa cadastro no banco academia do SQLite
@@ -85,16 +87,23 @@ def salvar():
   if lb["text"] != '' and vnome.get() != "" and vnome.get() != "" and vendereco.get() != "" and valtura.get() != "" and vpeso.get() != "":
     nom = vnome.get()
     end = vendereco.get()
-    pes = float(vpeso.get())
+    peso = float(vpeso.get())
+    pes = f'{peso:.2f}'
 
     result = analisaDados()
-    imc = result[0]
+    vimc = result[0]
+    imc = f'{vimc:.2f}'
     estado = result[1]
-    altmetros = result[2]
+    alturametros = result[2]
+    altmetros = f'{alturametros:.2f}'
 
+
+    print(altmetros)
+    dataAtual = datetime.now().strftime('%d/%m/%Y')
+    #print (dataAtual)
     querSalvar = messagebox.askyesno("Salvar", "Deseja Salvar os Dados no Cadastro?")
     if querSalvar == True:
-      vquery = f"INSERT INTO clientes (nome, endereco, peso, altura, imc, status) VALUES('{nom}','{end}',{pes:.1f},{altmetros:.2f},{imc:4.2f},'{estado}')"
+      vquery = f"INSERT INTO clientes (data, nome, endereco, peso, altura, imc, status) VALUES('{dataAtual}', '{nom}','{end}','{pes}','{altmetros}','{imc}','{estado}')"
       banco.dml(vquery)
       # varnome.delete(0, END)
       # varendereco.delete(0, END)
@@ -193,15 +202,17 @@ lb.place(x=0, y=0, width=330, height=200)
 quadroGrid = LabelFrame(tb2, text="Cadastro")
 quadroGrid.pack(fill='both', expand=TRUE, padx=10, pady=10)
 
-tv = ttk.Treeview(quadroGrid, height=20, columns=('id', 'nome', 'endereco', 'peso', 'altura', 'imc', 'status'), show='headings')
-tv.column('id', minwidth=0, width=40)
+tv = ttk.Treeview(quadroGrid, height=20, columns=('id', 'data', 'nome', 'endereco', 'peso', 'altura', 'imc', 'status'), show='headings')
+tv.column('id', minwidth=0, width=30)
+tv.column('data', minwidth=0, width=60)
 tv.column('nome', minwidth=0, width=220)
-tv.column('endereco', minwidth=0, width=300)
+tv.column('endereco', minwidth=0, width=260)
 tv.column('peso', minwidth=0, width=58)
 tv.column('altura', minwidth=0, width=69)
 tv.column('imc', minwidth=0, width=50)
-tv.column('status', minwidth=0, width=133)
+tv.column('status', minwidth=0, width=140)
 tv.heading('id', text='ID')
+tv.heading('data', text='DATA')
 tv.heading('nome', text='NOME')
 tv.heading('endereco', text='ENDEREÇO')
 tv.heading('peso', text='PESO(Kg)')
