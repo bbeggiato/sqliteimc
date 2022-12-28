@@ -15,7 +15,7 @@ def pesquisar():
   for i in linhas:
     tv.insert("", "end", values=i)
 
-# Mostra os dados do cadastro
+# Mostra os dados do Cadastro
 def popular():
   tv.delete(*tv.get_children())  # Deleta todos os registros do Tree View
   vquery = "SELECT * FROM clientes order by nome asc"
@@ -23,7 +23,7 @@ def popular():
   for i in linhas:
     tv.insert("", "end", values=i)
 
-# Deleta um por um dos dados do cadastro
+# Deleta um por um dos dados do Cadastro
 def deletar():
   vid = -1
   itemSelecionado = tv.selection()[0]
@@ -49,7 +49,7 @@ def sair():
      main.quit()
 
 
-# Validação para não permitir string nos campos peso e altura
+# Validação para não permitir string nos campos Peso e Altura
 def valida(entrada):
   if entrada.replace('.', '', 1).isdigit():
     return True
